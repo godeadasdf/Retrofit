@@ -8,10 +8,9 @@ import retrofit2.Retrofit;
  */
 public class BaseManager {
 
-    protected Retrofit retrofit;
-    private  OkHttpClient client;
+    protected   OkHttpClient client;
 
-    private BaseManager() {
-        retrofit =
+    protected BaseManager() {
+        client = new OkHttpClient.Builder().build();
     }
 }
