@@ -17,4 +17,5 @@ public class DailyLatestItem {
     public String[] images;
     public int type;
     public long id;
+
 }

@@ -34,4 +34,6 @@ public class DailyLatestDetail {
     public String date;
     public List<DailyLatestItem> stories;
     public List<DailyLatestItem> top_stories;
+
+
 }
