@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by kang on 17-4-20.
  */
-public class DailyLatestDetail {
+public class DailyLatestDetail extends BaseDailyItem {
     /*{
         date: "20140523",
                 stories: [
@@ -32,8 +32,8 @@ public class DailyLatestDetail {
         ]
     }*/
     public String date;
-    public List<DailyLatestItem> stories;
-    public List<DailyLatestItem> top_stories;
+    public List<DailyLatestDailyItem> stories;
+    public List<DailyLatestTopDailyItem> top_stories;
 
 
 }

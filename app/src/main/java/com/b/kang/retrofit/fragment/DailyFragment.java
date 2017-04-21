@@ -6,21 +6,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.adapter.DailyItemAdapter;
+import com.b.kang.retrofit.model.BaseDailyItem;
 import com.b.kang.retrofit.model.DailyLatestDetail;
-import com.b.kang.retrofit.model.DailyLatestItem;
 import com.b.kang.retrofit.network.manager.DailyManager;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
 
@@ -58,8 +54,8 @@ public class DailyFragment extends BaseFragment {
             @Override
             public void accept(DailyLatestDetail dailyLatestDetail) throws Exception {
                 //dailyContent.setText(new Gson().toJson(dailyLatestDetail));
-                List<DailyLatestItem> allItems = new ArrayList<>();
-                // allItems.addAll(dailyLatestDetail.top_stories);
+                List<BaseDailyItem> allItems = new ArrayList<>();
+                allItems.addAll(dailyLatestDetail.top_stories);
                 allItems.addAll(dailyLatestDetail.stories);
                 setDataForDailyView(dailyLatestDetail.date,allItems);
             }
@@ -67,7 +63,7 @@ public class DailyFragment extends BaseFragment {
         dailyManager.getDaily(consumer);
     }
 
-    private void setDataForDailyView(String Date, List<DailyLatestItem> items) {
+    private void setDataForDailyView(String Date, List<BaseDailyItem> items) {
         dailyAdapter = new DailyItemAdapter(items,getContext());
         dailyView.setAdapter(dailyAdapter);
     }

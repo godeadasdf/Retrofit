@@ -1,13 +1,9 @@
 package com.b.kang.retrofit.network.manager;
 
 import com.b.kang.retrofit.model.DailyLatestDetail;
-import com.b.kang.retrofit.model.DailyLatestItem;
 import com.b.kang.retrofit.network.interfaces.IDaily;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
-import org.reactivestreams.Subscriber;
-
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;

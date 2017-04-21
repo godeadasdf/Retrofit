@@ -3,7 +3,7 @@ package com.b.kang.retrofit.model;
 /**
  * Created by kang on 17-4-20.
  */
-public class DailyLatestItem {
+public class DailyLatestDailyItem extends BaseDailyItem {
 /*    {
         title: "中国古代家具发展到今天有两个高峰，一个两宋一个明末（多图）",
                 ga_prefix: "052321",
