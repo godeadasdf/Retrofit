@@ -14,9 +14,9 @@ public class BaseDailyItem {
 
     public long getId() {
         if (this instanceof DailyLatestDailyItem) {
-           return  ((DailyLatestDailyItem)this).getId();
+           return  ((DailyLatestDailyItem)this).id;
         }else if (this instanceof DailyLatestTopDailyItem){
-            return  ((DailyLatestTopDailyItem)this).getId();
+            return  ((DailyLatestTopDailyItem)this).id;
         }else {
             return -1;
         }

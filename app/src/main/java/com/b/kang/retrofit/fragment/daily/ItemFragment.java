@@ -27,7 +27,7 @@ import io.reactivex.functions.Consumer;
  * Created by kang on 17-4-20.
  */
 public class ItemFragment extends BaseFragment
-        implements BaseQuickAdapter.OnItemChildClickListener{
+        implements BaseQuickAdapter.OnItemClickListener{
 
     private DailyManager dailyManager;
     /*@BindView(R.id.daily_content)
@@ -69,12 +69,12 @@ public class ItemFragment extends BaseFragment
 
     private void setDataForDailyView(String Date, List<BaseDailyItem> items) {
         dailyAdapter = new DailyItemAdapter(items, getContext());
-        dailyAdapter.setOnItemChildClickListener(this);
+        dailyAdapter.setOnItemClickListener(this);
         dailyView.setAdapter(dailyAdapter);
     }
 
     @Override
-    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         Log.d(Tag(),"ItemClick()");
         BaseDailyItem item = (BaseDailyItem) adapter.getItem(position);
         long id = item.getId();

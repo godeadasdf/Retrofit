@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 
 import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.fragment.BaseFragment;
@@ -26,10 +27,10 @@ public class ContentFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_daily_content, container, false);
+        rootView = inflater.inflate(R.layout.fragment_daily_content, container, false);
         initArg();
         getContent();
-        return view;
+        return rootView;
     }
 
     private void initArg() {
@@ -37,14 +38,22 @@ public class ContentFragment extends BaseFragment {
         id = bundle.getLong("id");
     }
 
+
     private void getContent() {
         dailyManager = DailyManager.instance();
         Consumer<DailyContent> consumer = new Consumer<DailyContent>() {
             @Override
             public void accept(DailyContent dailyContent) throws Exception {
-                Log.d(Tag(),new Gson().toJson(dailyContent));
+                Log.d(Tag(), new Gson().toJson(dailyContent));
+                initWebView(dailyContent.body);
             }
         };
-        dailyManager.getNewsContent(consumer,id);
+        dailyManager.getNewsContent(consumer, id);
+    }
+
+
+    private void initWebView(String body) {
+        WebView webView = (WebView)rootView.findViewById(R.id.webview);
+        webView.loadData(body, "text/html; charset=UTF-8", null);
     }
 }

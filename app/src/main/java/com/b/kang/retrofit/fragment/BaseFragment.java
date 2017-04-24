@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import com.b.kang.retrofit.R;
 
@@ -14,6 +15,8 @@ import com.b.kang.retrofit.R;
 public class BaseFragment extends Fragment {
 
     protected FragmentManager baseFramentManager;
+
+    protected View rootView;
 
     public BaseFragment() {
 

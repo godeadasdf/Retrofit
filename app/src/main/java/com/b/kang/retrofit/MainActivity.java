@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.b.kang.retrofit.adapter.HomePagerAdapter;
 import com.b.kang.retrofit.fragment.BaseFragment;
+import com.b.kang.retrofit.fragment.daily.ItemFragment;
 import com.b.kang.retrofit.fragment.daily.PagerFragment;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private void initFragment(){
         fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragment_container, new PagerFragment());
+        ft.replace(R.id.fragment_container, new ItemFragment());
         ft.commit();
     }
 
