@@ -8,7 +8,17 @@ import com.google.gson.Gson;
 public class BaseDailyItem {
 
     @Override
-    public String toString(){
+    public String toString() {
         return new Gson().toJson(this);
+    }
+
+    public long getId() {
+        if (this instanceof DailyLatestDailyItem) {
+           return  ((DailyLatestDailyItem)this).getId();
+        }else if (this instanceof DailyLatestTopDailyItem){
+            return  ((DailyLatestTopDailyItem)this).getId();
+        }else {
+            return -1;
+        }
     }
 }
