@@ -27,6 +27,7 @@ public class PagerFragment extends BaseFragment
         return view;
     }
 
+
     private ViewPager pager;
     private HomePagerAdapter adapter;
     private List<BaseFragment> fragments;

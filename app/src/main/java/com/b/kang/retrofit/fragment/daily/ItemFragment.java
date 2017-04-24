@@ -48,6 +48,9 @@ public class ItemFragment extends BaseFragment
         initView(view);
         return view;
     }
+    //TODO for dynamic view, you'd better initialize in onCreateActivity
+    //// TODO: 17-4-24 stated-fragment  
+
 
     private void initView(View view) {
         dailyView = (RecyclerView) view.findViewById(R.id.daily_list);
