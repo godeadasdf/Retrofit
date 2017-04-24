@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.b.kang.retrofit.R;
+import com.b.kang.retrofit.util.FragmentStack;
 
 /**
  * Created by kang on 17-4-20.
@@ -28,10 +29,15 @@ public class BaseFragment extends Fragment {
         baseFramentManager = getActivity().getSupportFragmentManager();
     }
 
-    public void presentFragment(BaseFragment fragment) {
+    private void replaceFragment(BaseFragment fragment) {
         FragmentTransaction ft = baseFramentManager.beginTransaction();
         ft.replace(R.id.fragment_container, fragment);
         ft.commit();
+    }
+
+    public void presentFragment(BaseFragment fragment) {
+        replaceFragment(fragment);
+        FragmentStack.instance().push(fragment);
     }
 
     public void presentFragmentWithData(BaseFragment fragment, Bundle data) {
@@ -39,15 +45,24 @@ public class BaseFragment extends Fragment {
         presentFragment(fragment);
     }
 
-    public <T> Bundle assembleData(String key,T obj) {
+    public void backToPriorFragment() {
+        FragmentStack.instance().pop();
+        replaceFragment(FragmentStack.instance().getTop());
+    }
+
+    public <T> Bundle assembleData(String key, T obj) {
         Bundle bundle = new Bundle();
         if (obj instanceof Long) {
-            bundle.putLong(key, ((Long)obj).longValue());
+            bundle.putLong(key, ((Long) obj).longValue());
         }
         return bundle;
     }
 
     protected String Tag() {
         return this.getClass().getSimpleName();
+    }
+
+    public void onBackPressed() {
+        backToPriorFragment();
     }
 }
