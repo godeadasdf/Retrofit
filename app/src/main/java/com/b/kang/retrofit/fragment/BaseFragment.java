@@ -46,7 +46,8 @@ public class BaseFragment extends Fragment {
     }
 
     public void backToPriorFragment() {
-        FragmentStack.instance().pop();
+        FragmentTransaction ft = baseFramentManager.beginTransaction();
+        ft.remove(FragmentStack.instance().pop());
         replaceFragment(FragmentStack.instance().getTop());
     }
 
@@ -64,5 +65,15 @@ public class BaseFragment extends Fragment {
 
     public void onBackPressed() {
         backToPriorFragment();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+
+        }else {
+
+        }
     }
 }

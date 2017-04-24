@@ -2,6 +2,7 @@ package com.b.kang.retrofit.fragment.daily;
 
 import android.os.Bundle;;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,15 +29,18 @@ public class PagerFragment extends BaseFragment
 
     private ViewPager pager;
     private HomePagerAdapter adapter;
-    private List<BaseFragment> fragments = new ArrayList<>();
+    private List<BaseFragment> fragments;
 
     private void initPager(View view) {
+        Log.d(Tag(),"initPager");
         pager = (ViewPager) view.findViewById(R.id.pager);
+        fragments =  new ArrayList<>();
         fragments.add(new ItemFragment());
         fragments.add(new ItemFragment());
         fragments.add(new ItemFragment());
         adapter = new HomePagerAdapter(baseFramentManager, fragments);
         pager.setAdapter(adapter);
+        pager.setOffscreenPageLimit(1); //set preload page num
         pager.setCurrentItem(0);
         pager.addOnPageChangeListener(this);
     }
