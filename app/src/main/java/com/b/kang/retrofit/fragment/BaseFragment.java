@@ -51,10 +51,11 @@ public abstract class BaseFragment extends Fragment {
         FragmentStack.instance().push(fragment);
     }
 
+    //dynamic initialize in onActivityCreated static initialize in onCreateView
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //restoreState();
+        restoreState();
     }
 
     public void presentFragmentWithData(BaseFragment fragment, Bundle data) {
