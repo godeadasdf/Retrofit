@@ -1,5 +1,7 @@
 package com.b.kang.retrofit.network.manager;
 
+import android.util.Log;
+
 import com.b.kang.retrofit.model.DailyContent;
 import com.b.kang.retrofit.model.DailyLatestDailyItem;
 import com.b.kang.retrofit.model.DailyLatestDetail;
@@ -46,6 +48,7 @@ public class DailyManager extends BaseManager {
 
     //get daily item list
     public void getDaily(Consumer<DailyLatestDetail> consumer) {
+        Log.d(Tag(),"getDaily");
         iDaily.getDailyDetail()
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
@@ -55,6 +58,7 @@ public class DailyManager extends BaseManager {
 
     //get daily news content
     public void getNewsContent(Consumer<DailyContent> consumer, long id) {
+        Log.d(Tag(),"getNewsContent");
         iDailyContent.getNewsContent(id)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())

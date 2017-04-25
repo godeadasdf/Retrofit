@@ -1,6 +1,7 @@
 package com.b.kang.retrofit.util;
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.b.kang.retrofit.fragment.BaseFragment;
 
@@ -14,13 +15,15 @@ public class FragmentStack {
 
     private List<BaseFragment> stack;
 
+    private final static String TAG = "FragmentStack";
     private int size;
 
     private static class FragmentStackHolder {
         private static FragmentStack fragmentStack = new FragmentStack();
     }
 
-    private FragmentStack() {}
+    private FragmentStack() {
+    }
 
     public static FragmentStack instance() {
         return FragmentStackHolder.fragmentStack;
@@ -36,18 +39,27 @@ public class FragmentStack {
     }
 
     public BaseFragment pop() {
+
         if (size == 0) {
             return null;
         }
         BaseFragment pop = stack.get(size - 1);
         stack.remove(size - 1);
-        size --;
+        size--;
+        Log.d(TAG,"pop" + pop.Tag());
         return pop;
     }
 
     public void push(BaseFragment push) {
+        Log.d(TAG,"push" + push.Tag());
         stack.add(push);
-        size ++;
+        size++;
+    }
+
+    public void clear() {
+        Log.d(TAG,"clear");
+        stack.clear();
+        size = 0;
     }
 
     public int getSize() {

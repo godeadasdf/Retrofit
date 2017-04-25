@@ -13,4 +13,8 @@ public class BaseManager {
     protected BaseManager() {
         client = new OkHttpClient.Builder().build();
     }
+
+    protected String Tag(){
+        return this.getClass().getSimpleName();
+    }
 }

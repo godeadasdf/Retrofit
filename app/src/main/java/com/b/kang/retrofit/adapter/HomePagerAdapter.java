@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.b.kang.retrofit.fragment.BaseFragment;
 
@@ -36,5 +37,20 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return listfragment.size(); //总共有多少个fragment
+    }
+
+    @Override
+    public Fragment instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container,
+                position);
+        fragmetnmanager.beginTransaction().show(fragment).commit();
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        // super.destroyItem(container, position, object);
+        Fragment fragment = listfragment.get(position);
+        fragmetnmanager.beginTransaction().hide(fragment).commit();
     }
 }

@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private void initFragment() {
         fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-       /* PagerFragment fragment = new PagerFragment();
-        */
-        ItemFragment fragment = new ItemFragment();
+        PagerFragment fragment = new PagerFragment();
+       /* ItemFragment fragment = new ItemFragment();*/
         ft.replace(R.id.fragment_container, fragment);
+        //ft.addToBackStack(fragment.Tag());
         ft.commit();
         fs.push(fragment);
     }
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         if (fs.getSize() > 1) {
             fs.getTop().onBackPressed();
         } else {
+            fs.clear();
             super.onBackPressed();
         }
     }

@@ -77,7 +77,7 @@ public abstract class BaseFragment extends Fragment {
         return bundle;
     }
 
-    protected String Tag() {
+    public String Tag() {
         return this.getClass().getSimpleName();
     }
 
@@ -90,10 +90,20 @@ public abstract class BaseFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-
+            onVisible();
         } else {
-
+            onInVisible();
         }
+    }
+
+    //similar to onResume
+    protected void onVisible(){
+
+    }
+
+    //similar to onPause
+    protected void onInVisible(){
+
     }
 
     //for rotate

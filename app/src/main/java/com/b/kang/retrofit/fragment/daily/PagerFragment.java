@@ -1,7 +1,6 @@
 package com.b.kang.retrofit.fragment.daily;
 
-import android.os.Bundle;;
-import android.support.annotation.Nullable;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,24 +25,36 @@ public class PagerFragment extends BaseFragment
     private List<BaseFragment> fragments;
 
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initAdapter();
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_pager, container, false);
         initPager(view);
         return view;
     }
 
+    public void initAdapter(){
+        Log.d(Tag(),"initAdapter");
+        fragments = new ArrayList<>();
+        fragments.add(new ItemFragment());
+       /* fragments.add(new ItemFragment());
+        fragments.add(new ItemFragment());*/
+        //// TODO: 17-4-25 to know more about the difference between getChildFragmentManager and getFragmentManager 
+        adapter = new HomePagerAdapter(getChildFragmentManager(), fragments);
+    }
+
 
     private void initPager(View view) {
         Log.d(Tag(), "initPager");
         pager = (ViewPager) view.findViewById(R.id.pager);
-        fragments = new ArrayList<>();
-        fragments.add(new ItemFragment());
-        fragments.add(new ItemFragment());
-        fragments.add(new ItemFragment());
-        adapter = new HomePagerAdapter(baseFramentManager, fragments);
         pager.setAdapter(adapter);
-        pager.setOffscreenPageLimit(1); //set preload page num
-        pager.setCurrentItem(0);
+        //adapter.notifyDataSetChanged();
+        pager.setOffscreenPageLimit(2); //set preload page num
+        //pager.setCurrentItem(0);
         pager.addOnPageChangeListener(this);
     }
 
@@ -55,6 +66,7 @@ public class PagerFragment extends BaseFragment
     @Override
     public void onPageSelected(int position) {
         //// TODO: 17-4-24 need add reaction for bottom navigator style change
+        Log.d(Tag(),"position:" + position);
     }
 
     @Override
