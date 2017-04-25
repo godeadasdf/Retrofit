@@ -22,11 +22,13 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
 
     private FragmentManager fragmetnmanager;  //创建FragmentManager
     private List<BaseFragment> listfragment; //创建一个List<Fragment>
+    private List<String> title_strings;
 
-    public HomePagerAdapter(FragmentManager fm,List<BaseFragment> list) {
+    public HomePagerAdapter(FragmentManager fm, List<BaseFragment> list, List<String> strs) {
         super(fm);
-        this.fragmetnmanager=fm;
-        this.listfragment=list;
+        this.fragmetnmanager = fm;
+        this.listfragment = list;
+        this.title_strings = strs;
     }
 
     @Override
@@ -52,5 +54,10 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
         // super.destroyItem(container, position, object);
         Fragment fragment = listfragment.get(position);
         fragmetnmanager.beginTransaction().hide(fragment).commit();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return title_strings.get(position);
     }
 }

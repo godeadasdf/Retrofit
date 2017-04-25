@@ -101,37 +101,4 @@ public class ItemFragment extends BaseFragment
         long id = item.getId();
         presentFragmentWithData(new ContentFragment(), assembleData("id", id));
     }
-
-    @Override
-    protected void saveState() {
-        Log.d(Tag(), "saveState()");
-        scrollY = dailyView.getScrollY();
-        stateKeeper.putInt("scrollY", scrollY);
-    }
-
-    @Override
-    protected void restoreState() {
-        Log.d(Tag(), "restoreState");
-        scrollY = stateKeeper.getInt("scrollY", -100);
-        if (scrollY != -100) {
-            dailyView.scrollTo(scrollY, 0);
-        }
-    }
-
-    @Override
-    protected void onVisible() {
-        Log.d(Tag(), "onVisible");
-    }
-
-    @Override
-    protected void onInVisible() {
-        Log.d(Tag(), "onInVisible");
-    }
-
-    public void reloadData(){
-        if (items.size() > 0) {
-            Log.d(Tag(),"reloadData");
-            dailyAdapter.setNewData(items);
-        }
-    }
 }
