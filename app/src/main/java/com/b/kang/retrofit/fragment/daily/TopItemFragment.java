@@ -26,7 +26,7 @@ import io.reactivex.functions.Consumer;
 /**
  * Created by kang on 17-4-20.
  */
-public class ItemFragment extends BaseFragment
+public class TopItemFragment extends BaseFragment
         implements BaseQuickAdapter.OnItemClickListener {
 
     private DailyManager dailyManager;

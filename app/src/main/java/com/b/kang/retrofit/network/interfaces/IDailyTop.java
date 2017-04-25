@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 /**
  * Created by kang on 17-4-20.
  */
-public interface IDaily {
+public interface IDailyTop {
 
     @GET("api/4/news/latest")
     Observable<DailyLatestDetail> getDailyDetail();

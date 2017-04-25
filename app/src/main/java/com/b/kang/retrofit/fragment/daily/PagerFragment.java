@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.design.widget.TabLayout;
-import android.widget.TextView;
 
 import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.adapter.HomePagerAdapter;
@@ -48,8 +47,8 @@ public class PagerFragment extends BaseFragment
     public void initAdapter() {
         Log.d(Tag(), "initAdapter");
         fragments = new ArrayList<>();
-        fragments.add(new ItemFragment());
-        fragments.add(new ItemFragment());
+        fragments.add(new TopItemFragment());
+        fragments.add(new TopItemFragment());
         //// TODO: 17-4-25 to know more about the difference between getChildFragmentManager and getFragmentManager
         adapter = new HomePagerAdapter(getChildFragmentManager(), fragments, title_strings);
     }

@@ -1,6 +1,5 @@
 package com.b.kang.retrofit;
 
-import android.content.ClipData;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -10,7 +9,6 @@ import android.util.Log;
 
 import com.b.kang.retrofit.adapter.HomePagerAdapter;
 import com.b.kang.retrofit.fragment.BaseFragment;
-import com.b.kang.retrofit.fragment.daily.ItemFragment;
 import com.b.kang.retrofit.fragment.daily.PagerFragment;
 import com.b.kang.retrofit.util.FragmentStack;
 
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         PagerFragment fragment = new PagerFragment();
-       /* ItemFragment fragment = new ItemFragment();*/
+       /* TopItemFragment fragment = new TopItemFragment();*/
         ft.replace(R.id.fragment_container, fragment);
         //ft.addToBackStack(fragment.Tag());
         ft.commit();
