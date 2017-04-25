@@ -1,6 +1,7 @@
 package com.b.kang.retrofit.fragment.daily;
 
 import android.os.Bundle;;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +19,11 @@ import java.util.List;
  * Created by kang on 17-4-24.
  */
 public class PagerFragment extends BaseFragment
-        implements ViewPager.OnPageChangeListener{
+        implements ViewPager.OnPageChangeListener {
+
+    private ViewPager pager;
+    private HomePagerAdapter adapter;
+    private List<BaseFragment> fragments;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,14 +33,10 @@ public class PagerFragment extends BaseFragment
     }
 
 
-    private ViewPager pager;
-    private HomePagerAdapter adapter;
-    private List<BaseFragment> fragments;
-
     private void initPager(View view) {
-        Log.d(Tag(),"initPager");
+        Log.d(Tag(), "initPager");
         pager = (ViewPager) view.findViewById(R.id.pager);
-        fragments =  new ArrayList<>();
+        fragments = new ArrayList<>();
         fragments.add(new ItemFragment());
         fragments.add(new ItemFragment());
         fragments.add(new ItemFragment());
@@ -60,4 +61,5 @@ public class PagerFragment extends BaseFragment
     public void onPageScrollStateChanged(int state) {
 
     }
+
 }

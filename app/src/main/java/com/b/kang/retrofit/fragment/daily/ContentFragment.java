@@ -56,4 +56,5 @@ public class ContentFragment extends BaseFragment {
         WebView webView = (WebView)rootView.findViewById(R.id.webview);
         webView.loadData(body, "text/html; charset=UTF-8", null);
     }
+
 }

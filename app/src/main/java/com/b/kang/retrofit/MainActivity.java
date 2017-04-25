@@ -36,13 +36,16 @@ public class MainActivity extends AppCompatActivity {
         initFragment();
     }
 
+
     private void initFragment() {
         fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        PagerFragment pagerFragment = new PagerFragment();
-        ft.replace(R.id.fragment_container, pagerFragment);
+       /* PagerFragment fragment = new PagerFragment();
+        */
+        ItemFragment fragment = new ItemFragment();
+        ft.replace(R.id.fragment_container, fragment);
         ft.commit();
-        fs.push(pagerFragment);
+        fs.push(fragment);
     }
 
     @Override

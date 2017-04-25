@@ -2,10 +2,13 @@ package com.b.kang.retrofit.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.util.FragmentStack;
@@ -13,14 +16,21 @@ import com.b.kang.retrofit.util.FragmentStack;
 /**
  * Created by kang on 17-4-20.
  */
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     protected FragmentManager baseFramentManager;
 
     protected View rootView;
+    protected Bundle stateKeeper; //to keep state for fragment
 
     public BaseFragment() {
+        stateKeeper = new Bundle();
+    }
 
+    protected void saveState() {
+    }
+
+    protected void restoreState() {
     }
 
     @Override
@@ -32,12 +42,19 @@ public class BaseFragment extends Fragment {
     private void replaceFragment(BaseFragment fragment) {
         FragmentTransaction ft = baseFramentManager.beginTransaction();
         ft.replace(R.id.fragment_container, fragment);
+        ft.addToBackStack(fragment.Tag());
         ft.commit();
     }
 
     public void presentFragment(BaseFragment fragment) {
         replaceFragment(fragment);
         FragmentStack.instance().push(fragment);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //restoreState();
     }
 
     public void presentFragmentWithData(BaseFragment fragment, Bundle data) {
@@ -47,8 +64,8 @@ public class BaseFragment extends Fragment {
 
     public void backToPriorFragment() {
         FragmentTransaction ft = baseFramentManager.beginTransaction();
-        ft.remove(FragmentStack.instance().pop());
-        replaceFragment(FragmentStack.instance().getTop());
+        FragmentStack.instance().pop();
+        baseFramentManager.popBackStack();
     }
 
     public <T> Bundle assembleData(String key, T obj) {
@@ -67,13 +84,27 @@ public class BaseFragment extends Fragment {
         backToPriorFragment();
     }
 
+    //for extending
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser){
+        if (isVisibleToUser) {
 
-        }else {
+        } else {
 
         }
+    }
+
+    //for rotate
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        saveState();
+    }
+
+    //for stack back
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        saveState();
     }
 }

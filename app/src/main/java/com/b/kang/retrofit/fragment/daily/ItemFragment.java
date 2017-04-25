@@ -27,7 +27,7 @@ import io.reactivex.functions.Consumer;
  * Created by kang on 17-4-20.
  */
 public class ItemFragment extends BaseFragment
-        implements BaseQuickAdapter.OnItemClickListener{
+        implements BaseQuickAdapter.OnItemClickListener {
 
     private DailyManager dailyManager;
     /*@BindView(R.id.daily_content)
@@ -36,11 +36,23 @@ public class ItemFragment extends BaseFragment
     public RecyclerView dailyView;
     private DailyItemAdapter dailyAdapter;
 
+    private List<BaseDailyItem> items = new ArrayList<>();
+
+    private int scrollY;
+
 
     private Consumer<DailyLatestDetail> consumer;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dailyManager = DailyManager.instance();
+        initAdapter();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_daily_list, container, false);
        /* dailyContent = (TextView)view.findViewById(R.id.daily_content);*/
         //// TODO: 17-4-21 bind can't come into effect ... need to be solved
@@ -51,12 +63,9 @@ public class ItemFragment extends BaseFragment
     //TODO for dynamic view, you'd better initialize in onCreateActivity
     //// TODO: 17-4-24 stated-fragment  
 
-
-    private void initView(View view) {
-        dailyView = (RecyclerView) view.findViewById(R.id.daily_list);
-        dailyView.setHasFixedSize(true);
-        dailyView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        dailyManager = DailyManager.instance();
+    private void initAdapter() {
+        Log.d(Tag(),"initAdapter");
+        dailyAdapter = new DailyItemAdapter(items, getContext());
         consumer = new Consumer<DailyLatestDetail>() {
             @Override
             public void accept(DailyLatestDetail dailyLatestDetail) throws Exception {
@@ -70,17 +79,41 @@ public class ItemFragment extends BaseFragment
         dailyManager.getDaily(consumer);
     }
 
-    private void setDataForDailyView(String Date, List<BaseDailyItem> items) {
-        dailyAdapter = new DailyItemAdapter(items, getContext());
-        dailyAdapter.setOnItemClickListener(this);
+    private void initView(View view) {
+        Log.d(Tag(), "initView");
+        dailyView = (RecyclerView) view.findViewById(R.id.daily_list);
+        dailyView.setHasFixedSize(true);
+        dailyView.setLayoutManager(new LinearLayoutManager(getActivity()));
         dailyView.setAdapter(dailyAdapter);
+
+    }
+
+    private void setDataForDailyView(String Date, List<BaseDailyItem> items) {
+        dailyAdapter.setNewData(items);
+        dailyAdapter.setOnItemClickListener(this);
     }
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        Log.d(Tag(),"ItemClick()");
+        Log.d(Tag(), "ItemClick()");
         BaseDailyItem item = (BaseDailyItem) adapter.getItem(position);
         long id = item.getId();
-        presentFragmentWithData(new ContentFragment(),assembleData("id",id));
+        presentFragmentWithData(new ContentFragment(), assembleData("id", id));
+    }
+
+    @Override
+    protected void saveState() {
+        Log.d(Tag(),"saveState()");
+        scrollY = dailyView.getScrollY();
+        stateKeeper.putInt("scrollY", scrollY);
+    }
+
+    @Override
+    protected void restoreState() {
+        Log.d(Tag(),"restoreState");
+        scrollY = stateKeeper.getInt("scrollY", -100);
+        if (scrollY != -100) {
+            dailyView.scrollTo(scrollY, 0);
+        }
     }
 }
