@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.b.kang.retrofit.R;
-import com.b.kang.retrofit.adapter.DailyItemAdapter;
+import com.b.kang.retrofit.adapter.TopItemAdapter;
 import com.b.kang.retrofit.fragment.BaseFragment;
 import com.b.kang.retrofit.model.BaseDailyItem;
 import com.b.kang.retrofit.model.DailyLatestDetail;
@@ -19,7 +19,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 
 
@@ -34,11 +33,9 @@ public class TopItemFragment extends BaseFragment
     public TextView dailyContent;*/
 
     public RecyclerView dailyView;
-    private DailyItemAdapter dailyAdapter;
+    private TopItemAdapter dailyAdapter;
 
     private List<BaseDailyItem> items = new ArrayList<>();
-
-    private int scrollY;
 
 
     private Consumer<DailyLatestDetail> consumer;
@@ -65,7 +62,7 @@ public class TopItemFragment extends BaseFragment
 
     private void initAdapter() {
         Log.d(Tag(), "initAdapter");
-        dailyAdapter = new DailyItemAdapter(items, getContext());
+        dailyAdapter = new TopItemAdapter(items, getContext());
         consumer = new Consumer<DailyLatestDetail>() {
             @Override
             public void accept(DailyLatestDetail dailyLatestDetail) throws Exception {

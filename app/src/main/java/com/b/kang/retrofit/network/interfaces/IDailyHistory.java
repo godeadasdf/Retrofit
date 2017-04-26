@@ -11,6 +11,6 @@ import retrofit2.http.Path;
  */
 public interface IDailyHistory {
 
-    @GET("api/4/news/{date}")
+    @GET("api/4/news/before/{date}")
     Observable<DailyHistory> getDailyHistory(@Path("date") String date);
 }

@@ -17,11 +17,11 @@ import java.util.List;
 /**
  * Created by kang on 17-4-21.
  */
-public class DailyItemAdapter<T extends BaseDailyItem> extends BaseQuickAdapter<T, BaseViewHolder> {
+public class TopItemAdapter<T extends BaseDailyItem> extends BaseQuickAdapter<T, BaseViewHolder> {
 
     private Context context;
 
-    public DailyItemAdapter(List<T> data, Context context) {
+    public TopItemAdapter(List<T> data, Context context) {
         super(R.layout.list_item_daily, data);
         this.context = context;
     }

@@ -1,6 +1,7 @@
 package com.b.kang.retrofit.network.manager;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 
 /**
@@ -8,13 +9,15 @@ import retrofit2.Retrofit;
  */
 public class BaseManager {
 
-    protected   OkHttpClient client;
+    protected OkHttpClient client;
 
     protected BaseManager() {
-        client = new OkHttpClient.Builder().build();
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        client = new OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build();
     }
 
-    protected String Tag(){
+    protected String Tag() {
         return this.getClass().getSimpleName();
     }
 }

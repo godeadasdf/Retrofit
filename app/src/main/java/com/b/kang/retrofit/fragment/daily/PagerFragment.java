@@ -48,7 +48,7 @@ public class PagerFragment extends BaseFragment
         Log.d(Tag(), "initAdapter");
         fragments = new ArrayList<>();
         fragments.add(new TopItemFragment());
-        fragments.add(new TopItemFragment());
+        fragments.add(new HistoryItemFragment());
         //// TODO: 17-4-25 to know more about the difference between getChildFragmentManager and getFragmentManager
         adapter = new HomePagerAdapter(getChildFragmentManager(), fragments, title_strings);
     }
