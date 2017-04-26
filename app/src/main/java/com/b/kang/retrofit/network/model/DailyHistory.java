@@ -1,6 +1,5 @@
-package com.b.kang.retrofit.model;
+package com.b.kang.retrofit.network.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

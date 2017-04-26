@@ -1,4 +1,4 @@
-package com.b.kang.retrofit.model;
+package com.b.kang.retrofit.network.model;
 
 import java.util.List;
 

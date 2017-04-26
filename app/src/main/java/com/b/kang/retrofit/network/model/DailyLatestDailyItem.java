@@ -1,4 +1,4 @@
-package com.b.kang.retrofit.model;
+package com.b.kang.retrofit.network.model;
 
 /**
  * Created by kang on 17-4-20.

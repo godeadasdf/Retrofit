@@ -1,6 +1,6 @@
 package com.b.kang.retrofit.network.interfaces;
 
-import com.b.kang.retrofit.model.DailyLatestDetail;
+import com.b.kang.retrofit.network.model.DailyLatestDetail;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

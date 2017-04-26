@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.adapter.TopItemAdapter;
 import com.b.kang.retrofit.fragment.BaseFragment;
-import com.b.kang.retrofit.model.DailyHistory;
-import com.b.kang.retrofit.model.DailyLatestDailyItem;
+import com.b.kang.retrofit.network.model.DailyHistory;
+import com.b.kang.retrofit.network.model.DailyLatestDailyItem;
 import com.b.kang.retrofit.network.manager.DailyManager;
 import com.b.kang.retrofit.util.DateUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
 /**

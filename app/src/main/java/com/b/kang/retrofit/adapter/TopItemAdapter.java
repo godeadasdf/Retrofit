@@ -5,9 +5,9 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.b.kang.retrofit.R;
-import com.b.kang.retrofit.model.BaseDailyItem;
-import com.b.kang.retrofit.model.DailyLatestDailyItem;
-import com.b.kang.retrofit.model.DailyLatestTopDailyItem;
+import com.b.kang.retrofit.network.model.BaseDailyItem;
+import com.b.kang.retrofit.network.model.DailyLatestDailyItem;
+import com.b.kang.retrofit.network.model.DailyLatestTopDailyItem;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.squareup.picasso.Picasso;

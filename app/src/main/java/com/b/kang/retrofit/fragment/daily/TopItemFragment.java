@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.adapter.TopItemAdapter;
 import com.b.kang.retrofit.fragment.BaseFragment;
-import com.b.kang.retrofit.model.BaseDailyItem;
-import com.b.kang.retrofit.model.DailyLatestDetail;
+import com.b.kang.retrofit.network.model.BaseDailyItem;
+import com.b.kang.retrofit.network.model.DailyLatestDetail;
 import com.b.kang.retrofit.network.manager.DailyManager;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 

@@ -9,11 +9,10 @@ import android.webkit.WebView;
 
 import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.fragment.BaseFragment;
-import com.b.kang.retrofit.model.DailyContent;
+import com.b.kang.retrofit.network.model.DailyContent;
 import com.b.kang.retrofit.network.manager.DailyManager;
 import com.google.gson.Gson;
 
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
 /**

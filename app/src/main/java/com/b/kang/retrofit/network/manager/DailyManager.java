@@ -2,9 +2,9 @@ package com.b.kang.retrofit.network.manager;
 
 import android.util.Log;
 
-import com.b.kang.retrofit.model.DailyContent;
-import com.b.kang.retrofit.model.DailyHistory;
-import com.b.kang.retrofit.model.DailyLatestDetail;
+import com.b.kang.retrofit.network.model.DailyContent;
+import com.b.kang.retrofit.network.model.DailyHistory;
+import com.b.kang.retrofit.network.model.DailyLatestDetail;
 import com.b.kang.retrofit.network.interfaces.IDailyHistory;
 import com.b.kang.retrofit.network.interfaces.IDailyTop;
 import com.b.kang.retrofit.network.interfaces.IDailyContent;
