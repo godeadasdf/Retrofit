@@ -21,6 +21,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class DailyManager extends BaseManager {
 
+    //// TODO: 17-4-26 find a way to catch exception when 404 happens
+
     private static class DailyManagerHolder {
         private static DailyManager manager = new DailyManager();
     }
