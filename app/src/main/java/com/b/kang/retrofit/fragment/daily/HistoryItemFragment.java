@@ -14,6 +14,7 @@ import com.b.kang.retrofit.model.DailyHistory;
 import com.b.kang.retrofit.model.DailyLatestDailyItem;
 import com.b.kang.retrofit.network.manager.DailyManager;
 import com.b.kang.retrofit.util.DateUtil;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +26,7 @@ import io.reactivex.functions.Consumer;
 /**
  * Created by kang on 17-4-26.
  */
-public class HistoryItemFragment extends BaseFragment {
+public class HistoryItemFragment extends BaseFragment implements BaseQuickAdapter.RequestLoadMoreListener{
 
     private DailyManager dailyManager;
 
@@ -57,6 +58,7 @@ public class HistoryItemFragment extends BaseFragment {
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(getActivity()));
         list.setAdapter(adapter);
+        adapter.setOnLoadMoreListener(this,list);
     }
     
     
@@ -65,16 +67,27 @@ public class HistoryItemFragment extends BaseFragment {
         currentDate = new Date();
         items = new ArrayList<>();
         adapter = new TopItemAdapter(items,getContext());
-        Consumer<DailyHistory> consumer = new Consumer<DailyHistory>() {
+        adapter.setAutoLoadMoreSize(1);
+        consumer = new Consumer<DailyHistory>() {
             @Override
             public void accept(DailyHistory dailyHistory) throws Exception {
-                setDataForList(dailyHistory);
+                addDataForList(dailyHistory);
+                if (adapter.isLoading()){
+                    adapter.loadMoreComplete();
+                }
+                adapter.setEnableLoadMore(true);
             }
         };
         dailyManager.getDailyHistory(consumer, DateUtil.date(currentDate,DateUtil.PATTERN_ONE));
     }
     
-    private void setDataForList(DailyHistory history){
-        adapter.setNewData(history.stories);
+    private void addDataForList(DailyHistory history){
+        adapter.addData(history.stories);
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        currentDate = DateUtil.priorDay(currentDate);
+        dailyManager.getDailyHistory(consumer,DateUtil.date(currentDate,DateUtil.PATTERN_ONE));
     }
 }
