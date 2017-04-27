@@ -14,15 +14,16 @@ import android.util.Log;
 
 
 /**
- * Created by hackcoder on 15-1-25.
+ * Created by kang on 2017-4-27
  */
-public class NetUtil extends BroadcastReceiver{
+public class NetUtil extends BroadcastReceiver {
 
     private final static String TAG = "NetUtil";
 
     public static NetState netState;
 
     //todo add receiver to moniter netstate change
+
     /**
      * 判断是否有网络连接
      *

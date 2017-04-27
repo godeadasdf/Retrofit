@@ -15,6 +15,7 @@ import com.b.kang.retrofit.network.interfaces.INetData;
 import com.b.kang.retrofit.network.model.BaseDailyItem;
 import com.b.kang.retrofit.network.model.DailyLatestDetail;
 import com.b.kang.retrofit.network.manager.DailyManager;
+import com.b.kang.retrofit.util.NetState;
 import com.b.kang.retrofit.util.NetUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -26,7 +27,7 @@ import java.util.List;
  * Created by kang on 17-4-20.
  */
 public class TopItemFragment extends BaseFragment
-        implements BaseQuickAdapter.OnItemClickListener,INetData<DailyLatestDetail> {
+        implements BaseQuickAdapter.OnItemClickListener, INetData<DailyLatestDetail> {
 
     private DailyManager dailyManager;
     /*@BindView(R.id.daily_content)
@@ -62,7 +63,7 @@ public class TopItemFragment extends BaseFragment
         Log.d(tag(), "initAdapter");
         dailyAdapter = new TopItemAdapter(items, getContext());
 
-        if (NetUtil.isNetworkConnected(baseContext)) {
+        if (NetUtil.netState.getValue() != NetState.NONE.getValue()) {
             dailyManager.getDaily(this);
         }
     }
@@ -100,6 +101,6 @@ public class TopItemFragment extends BaseFragment
 
     @Override
     public void onError() {
-        Log.d(tag(),"NetError");
+        Log.d(tag(), "NetError");
     }
 }

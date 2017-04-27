@@ -19,6 +19,7 @@ import com.b.kang.retrofit.network.model.DailyLatestDailyItem;
 import com.b.kang.retrofit.network.manager.DailyManager;
 import com.b.kang.retrofit.util.DateUtil;
 import com.b.kang.retrofit.util.EntityUtil;
+import com.b.kang.retrofit.util.NetState;
 import com.b.kang.retrofit.util.NetUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
@@ -32,7 +33,7 @@ import io.reactivex.Observer;
  * Created by kang on 17-4-26.
  */
 public class HistoryItemFragment extends BaseFragment
-        implements BaseQuickAdapter.RequestLoadMoreListener,INetData<DailyHistory> {
+        implements BaseQuickAdapter.RequestLoadMoreListener, INetData<DailyHistory> {
 
     private DailyManager dailyManager;
 
@@ -74,7 +75,7 @@ public class HistoryItemFragment extends BaseFragment
         items = new ArrayList<>();
         adapter = new TopItemAdapter(items, baseContext);
         adapter.setAutoLoadMoreSize(1);
-        if (NetUtil.isNetworkConnected(baseContext)) {
+        if (NetUtil.netState.getValue() != NetState.NONE.getValue()) {
             //with network load from network
             dailyManager.getDailyHistory(this, DateUtil.date(currentDate, DateUtil.PATTERN_ONE));
         } else {
@@ -107,6 +108,6 @@ public class HistoryItemFragment extends BaseFragment
 
     @Override
     public void onError() {
-        Log.d(tag(),"Network Error");
+        Log.d(tag(), "Network Error");
     }
 }
