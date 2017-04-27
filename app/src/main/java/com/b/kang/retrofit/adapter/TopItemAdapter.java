@@ -5,11 +5,13 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.b.kang.retrofit.R;
+import com.b.kang.retrofit.database.entity.ZhiHuItem;
 import com.b.kang.retrofit.network.model.BaseDailyItem;
 import com.b.kang.retrofit.network.model.DailyLatestDailyItem;
 import com.b.kang.retrofit.network.model.DailyLatestTopDailyItem;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.squareup.picasso.Cache;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -35,6 +37,9 @@ public class TopItemAdapter<T extends BaseDailyItem> extends BaseQuickAdapter<T,
         }else if (item instanceof DailyLatestTopDailyItem) {
             Picasso.with(context).load(((DailyLatestTopDailyItem) item).image).into((ImageView) holder.getView(R.id.image));
             holder.setText(R.id.title, ((DailyLatestTopDailyItem) item).title);
+        }else if (item instanceof ZhiHuItem) {
+            Picasso.with(context).load(((ZhiHuItem) item).imageUrl).into((ImageView) holder.getView(R.id.image));
+            holder.setText(R.id.title, ((ZhiHuItem) item).title);
         }
     }
 }

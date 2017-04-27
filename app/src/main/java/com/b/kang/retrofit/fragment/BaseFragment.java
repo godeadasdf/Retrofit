@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.b.kang.retrofit.KApplication;
 import com.b.kang.retrofit.R;
+import com.b.kang.retrofit.database.dao.GreenDaoManager;
 import com.b.kang.retrofit.util.FragmentStack;
 
 /**
@@ -23,8 +25,13 @@ public abstract class BaseFragment extends Fragment {
     protected View rootView;
     protected Bundle stateKeeper; //to keep state for fragment
 
+    protected Context baseContext;
+
+    protected GreenDaoManager greenDaoManager;
+
     public BaseFragment() {
         stateKeeper = new Bundle();
+        greenDaoManager = KApplication.getGreenDaoManager();
     }
 
     protected void saveState() {
@@ -37,6 +44,7 @@ public abstract class BaseFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         baseFramentManager = getActivity().getSupportFragmentManager();
+        baseContext = getContext();
     }
 
     private void replaceFragment(BaseFragment fragment) {
@@ -97,12 +105,12 @@ public abstract class BaseFragment extends Fragment {
     }
 
     //similar to onResume
-    protected void onVisible(){
+    protected void onVisible() {
 
     }
 
     //similar to onPause
-    protected void onInVisible(){
+    protected void onInVisible() {
 
     }
 

@@ -1,5 +1,8 @@
 package com.b.kang.retrofit.network.model;
 
+import android.util.Log;
+
+import com.b.kang.retrofit.database.entity.ZhiHuItem;
 import com.google.gson.Gson;
 
 /**
@@ -12,13 +15,15 @@ public class BaseDailyItem {
         return new Gson().toJson(this);
     }
 
-    public long getId() {
+    public Long getId() {
         if (this instanceof DailyLatestDailyItem) {
-           return  ((DailyLatestDailyItem)this).id;
-        }else if (this instanceof DailyLatestTopDailyItem){
-            return  ((DailyLatestTopDailyItem)this).id;
-        }else {
-            return -1;
+            return ((DailyLatestDailyItem) this).id;
+        } else if (this instanceof DailyLatestTopDailyItem) {
+            return ((DailyLatestTopDailyItem) this).id;
+        } else if (this instanceof ZhiHuItem) {
+            return ((ZhiHuItem) this).id;
+        } else {
+            return -1L;
         }
     }
 }

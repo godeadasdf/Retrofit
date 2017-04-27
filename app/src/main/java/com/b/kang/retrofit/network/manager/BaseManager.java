@@ -9,6 +9,7 @@ import retrofit2.Retrofit;
  */
 public class BaseManager {
 
+    //// TODO: 17-4-27  need to add expection catcher for Retrofit neterror
     protected OkHttpClient client;
 
     protected BaseManager() {

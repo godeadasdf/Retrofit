@@ -24,10 +24,11 @@ public class ZhiHuItemDao extends AbstractDao<ZhiHuItem, Long> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, long.class, "id", true, "_id");
+        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property NewsId = new Property(1, long.class, "newsId", false, "NEWS_ID");
         public final static Property Title = new Property(2, String.class, "title", false, "TITLE");
         public final static Property ImageUrl = new Property(3, String.class, "imageUrl", false, "IMAGE_URL");
+        public final static Property Date = new Property(4, String.class, "date", false, "DATE");
     }
 
 
@@ -43,10 +44,11 @@ public class ZhiHuItemDao extends AbstractDao<ZhiHuItem, Long> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"ZHI_HU_ITEM\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ," + // 0: id
+                "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"NEWS_ID\" INTEGER NOT NULL ," + // 1: newsId
                 "\"TITLE\" TEXT," + // 2: title
-                "\"IMAGE_URL\" TEXT);"); // 3: imageUrl
+                "\"IMAGE_URL\" TEXT," + // 3: imageUrl
+                "\"DATE\" TEXT);"); // 4: date
     }
 
     /** Drops the underlying database table. */
@@ -58,7 +60,11 @@ public class ZhiHuItemDao extends AbstractDao<ZhiHuItem, Long> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, ZhiHuItem entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
         stmt.bindLong(2, entity.getNewsId());
  
         String title = entity.getTitle();
@@ -69,13 +75,22 @@ public class ZhiHuItemDao extends AbstractDao<ZhiHuItem, Long> {
         String imageUrl = entity.getImageUrl();
         if (imageUrl != null) {
             stmt.bindString(4, imageUrl);
+        }
+ 
+        String date = entity.getDate();
+        if (date != null) {
+            stmt.bindString(5, date);
         }
     }
 
     @Override
     protected final void bindValues(SQLiteStatement stmt, ZhiHuItem entity) {
         stmt.clearBindings();
-        stmt.bindLong(1, entity.getId());
+ 
+        Long id = entity.getId();
+        if (id != null) {
+            stmt.bindLong(1, id);
+        }
         stmt.bindLong(2, entity.getNewsId());
  
         String title = entity.getTitle();
@@ -87,30 +102,37 @@ public class ZhiHuItemDao extends AbstractDao<ZhiHuItem, Long> {
         if (imageUrl != null) {
             stmt.bindString(4, imageUrl);
         }
+ 
+        String date = entity.getDate();
+        if (date != null) {
+            stmt.bindString(5, date);
+        }
     }
 
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.getLong(offset + 0);
+        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
     }    
 
     @Override
     public ZhiHuItem readEntity(Cursor cursor, int offset) {
         ZhiHuItem entity = new ZhiHuItem( //
-            cursor.getLong(offset + 0), // id
+            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getLong(offset + 1), // newsId
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // title
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3) // imageUrl
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // imageUrl
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4) // date
         );
         return entity;
     }
      
     @Override
     public void readEntity(Cursor cursor, ZhiHuItem entity, int offset) {
-        entity.setId(cursor.getLong(offset + 0));
+        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setNewsId(cursor.getLong(offset + 1));
         entity.setTitle(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setImageUrl(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setDate(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
      }
     
     @Override
@@ -130,7 +152,7 @@ public class ZhiHuItemDao extends AbstractDao<ZhiHuItem, Long> {
 
     @Override
     public boolean hasKey(ZhiHuItem entity) {
-        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
+        return entity.getId() != null;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.b.kang.retrofit.database.entity;
 
+import com.b.kang.retrofit.network.model.BaseDailyItem;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
@@ -8,10 +10,10 @@ import org.greenrobot.greendao.annotation.Generated;
  * Created by kang on 17-4-26.
  */
 @Entity
-public class ZhiHuItem {
+public class ZhiHuItem extends BaseDailyItem {
 
     @Id(autoincrement = true)
-    public long id;
+    public Long id;
 
     public long newsId;
 
@@ -19,23 +21,27 @@ public class ZhiHuItem {
 
     public String imageUrl;
 
-    @Generated(hash = 1618524194)
-    public ZhiHuItem(long id, long newsId, String title, String imageUrl) {
+    public String date;
+
+    @Generated(hash = 728070466)
+    public ZhiHuItem(Long id, long newsId, String title, String imageUrl,
+            String date) {
         this.id = id;
         this.newsId = newsId;
         this.title = title;
         this.imageUrl = imageUrl;
+        this.date = date;
     }
 
     @Generated(hash = 1538425255)
     public ZhiHuItem() {
     }
 
-    public long getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -62,4 +68,13 @@ public class ZhiHuItem {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public String getDate() {
+        return this.date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
 }

@@ -14,6 +14,7 @@ import com.b.kang.retrofit.fragment.BaseFragment;
 import com.b.kang.retrofit.network.model.BaseDailyItem;
 import com.b.kang.retrofit.network.model.DailyLatestDetail;
 import com.b.kang.retrofit.network.manager.DailyManager;
+import com.b.kang.retrofit.util.NetUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -74,7 +75,10 @@ public class TopItemFragment extends BaseFragment
                 items = allItems;
             }
         };
-        dailyManager.getDaily(consumer);
+
+        if (NetUtil.isNetworkConnected(baseContext)) {
+            dailyManager.getDaily(consumer);
+        }
     }
 
     private void initView(View view) {
