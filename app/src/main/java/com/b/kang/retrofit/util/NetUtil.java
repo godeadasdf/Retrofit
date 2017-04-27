@@ -15,7 +15,7 @@ import android.telephony.TelephonyManager;
  */
 public class NetUtil {
 
-
+    //todo add receiver to moniter netstate change
     /**
      * 判断是否有网络连接
      *
