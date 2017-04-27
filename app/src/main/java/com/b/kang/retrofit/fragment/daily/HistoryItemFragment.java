@@ -12,6 +12,8 @@ import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.adapter.TopItemAdapter;
 import com.b.kang.retrofit.database.dao.ZhiHuItemDao;
 import com.b.kang.retrofit.database.entity.ZhiHuItem;
+import com.b.kang.retrofit.database.interfaces.IDbData;
+import com.b.kang.retrofit.database.manager.ZhiHuDaoManager;
 import com.b.kang.retrofit.fragment.BaseFragment;
 import com.b.kang.retrofit.network.interfaces.INetData;
 import com.b.kang.retrofit.network.model.DailyHistory;
@@ -33,9 +35,11 @@ import io.reactivex.Observer;
  * Created by kang on 17-4-26.
  */
 public class HistoryItemFragment extends BaseFragment
-        implements BaseQuickAdapter.RequestLoadMoreListener, INetData<DailyHistory> {
+        implements BaseQuickAdapter.RequestLoadMoreListener,
+        INetData<DailyHistory>, IDbData<List<ZhiHuItem>> {
 
     private DailyManager dailyManager;
+    private ZhiHuDaoManager daoManager;
 
     private TopItemAdapter adapter;
     private RecyclerView list;
@@ -71,6 +75,7 @@ public class HistoryItemFragment extends BaseFragment
 
     private void initAdapter() {
         dailyManager = DailyManager.instance();
+        daoManager = ZhiHuDaoManager.instance();
         currentDate = new Date();
         items = new ArrayList<>();
         adapter = new TopItemAdapter(items, baseContext);
@@ -80,9 +85,8 @@ public class HistoryItemFragment extends BaseFragment
             dailyManager.getDailyHistory(this, DateUtil.date(currentDate, DateUtil.PATTERN_ONE));
         } else {
             //without network load from database
-            ZhiHuItemDao dao = greenDaoManager.getNewSession().getZhiHuItemDao();
-            List<ZhiHuItem> list = dao.queryBuilder().limit(20).list();
-            adapter.addData(list);
+            daoManager.getZhiHuList(this);
+
         }
     }
 
@@ -98,7 +102,7 @@ public class HistoryItemFragment extends BaseFragment
 
     @Override
     public void onDataBack(DailyHistory dailyHistory) {
-        EntityUtil.saveDailyModel(dailyHistory.stories, dailyHistory.date);
+        daoManager.saveZhiHuList(dailyHistory.stories, dailyHistory.date);
         addDataForList(dailyHistory);
         if (adapter.isLoading()) {
             adapter.loadMoreComplete();
@@ -109,5 +113,10 @@ public class HistoryItemFragment extends BaseFragment
     @Override
     public void onError() {
         Log.d(tag(), "Network Error");
+    }
+
+    @Override
+    public void onLoadData(List<ZhiHuItem> data) {
+        adapter.addData(data);
     }
 }
