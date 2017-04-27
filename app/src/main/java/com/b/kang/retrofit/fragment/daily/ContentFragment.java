@@ -9,6 +9,7 @@ import android.webkit.WebView;
 
 import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.fragment.BaseFragment;
+import com.b.kang.retrofit.network.interfaces.INetData;
 import com.b.kang.retrofit.network.model.DailyContent;
 import com.b.kang.retrofit.network.manager.DailyManager;
 import com.google.gson.Gson;
@@ -18,7 +19,8 @@ import io.reactivex.functions.Consumer;
 /**
  * Created by kang on 17-4-24.
  */
-public class ContentFragment extends BaseFragment {
+public class ContentFragment extends BaseFragment
+    implements INetData<DailyContent>{
 
     private long id;
 
@@ -40,14 +42,7 @@ public class ContentFragment extends BaseFragment {
 
     private void getContent() {
         dailyManager = DailyManager.instance();
-        Consumer<DailyContent> consumer = new Consumer<DailyContent>() {
-            @Override
-            public void accept(DailyContent dailyContent) throws Exception {
-                Log.d(Tag(), new Gson().toJson(dailyContent));
-                initWebView(dailyContent.body);
-            }
-        };
-        dailyManager.getNewsContent(consumer, id);
+        dailyManager.getNewsContent(this, id);
     }
 
 
@@ -56,4 +51,14 @@ public class ContentFragment extends BaseFragment {
         webView.loadData(body, "text/html; charset=UTF-8", null);
     }
 
+    @Override
+    public void onDataBack(DailyContent dailyContent) {
+        Log.d(Tag(), new Gson().toJson(dailyContent));
+        initWebView(dailyContent.body);
+    }
+
+    @Override
+    public void onError() {
+        Log.d(Tag(),"NetError");
+    }
 }

@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by kang on 17-4-25.
  */
-public class DailyHistory {
+public class DailyHistory extends BaseDailyItem{
     public String date;
     public List<DailyLatestDailyItem> stories;
 }

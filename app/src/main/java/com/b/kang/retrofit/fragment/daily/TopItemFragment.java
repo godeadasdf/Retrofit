@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.adapter.TopItemAdapter;
 import com.b.kang.retrofit.fragment.BaseFragment;
+import com.b.kang.retrofit.network.interfaces.INetData;
 import com.b.kang.retrofit.network.model.BaseDailyItem;
 import com.b.kang.retrofit.network.model.DailyLatestDetail;
 import com.b.kang.retrofit.network.manager.DailyManager;
@@ -27,7 +28,7 @@ import io.reactivex.functions.Consumer;
  * Created by kang on 17-4-20.
  */
 public class TopItemFragment extends BaseFragment
-        implements BaseQuickAdapter.OnItemClickListener {
+        implements BaseQuickAdapter.OnItemClickListener,INetData<DailyLatestDetail> {
 
     private DailyManager dailyManager;
     /*@BindView(R.id.daily_content)
@@ -38,8 +39,6 @@ public class TopItemFragment extends BaseFragment
 
     private List<BaseDailyItem> items = new ArrayList<>();
 
-
-    private Consumer<DailyLatestDetail> consumer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,20 +63,9 @@ public class TopItemFragment extends BaseFragment
     private void initAdapter() {
         Log.d(Tag(), "initAdapter");
         dailyAdapter = new TopItemAdapter(items, getContext());
-        consumer = new Consumer<DailyLatestDetail>() {
-            @Override
-            public void accept(DailyLatestDetail dailyLatestDetail) throws Exception {
-                //dailyContent.setText(new Gson().toJson(dailyLatestDetail));
-                List<BaseDailyItem> allItems = new ArrayList<>();
-                allItems.addAll(dailyLatestDetail.top_stories);
-                allItems.addAll(dailyLatestDetail.stories);
-                setDataForDailyView(dailyLatestDetail.date, allItems);
-                items = allItems;
-            }
-        };
 
         if (NetUtil.isNetworkConnected(baseContext)) {
-            dailyManager.getDaily(consumer);
+            dailyManager.getDaily(this);
         }
     }
 
@@ -101,5 +89,19 @@ public class TopItemFragment extends BaseFragment
         BaseDailyItem item = (BaseDailyItem) adapter.getItem(position);
         long id = item.getId();
         presentFragmentWithData(new ContentFragment(), assembleData("id", id));
+    }
+
+    @Override
+    public void onDataBack(DailyLatestDetail dailyLatestDetail) {
+        List<BaseDailyItem> allItems = new ArrayList<>();
+        allItems.addAll(dailyLatestDetail.top_stories);
+        allItems.addAll(dailyLatestDetail.stories);
+        setDataForDailyView(dailyLatestDetail.date, allItems);
+        items = allItems;
+    }
+
+    @Override
+    public void onError() {
+        Log.d(Tag(),"NetError");
     }
 }

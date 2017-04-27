@@ -2,6 +2,7 @@ package com.b.kang.retrofit.network.manager;
 
 import android.util.Log;
 
+import com.b.kang.retrofit.network.interfaces.INetData;
 import com.b.kang.retrofit.network.model.DailyContent;
 import com.b.kang.retrofit.network.model.DailyHistory;
 import com.b.kang.retrofit.network.model.DailyLatestDetail;
@@ -10,7 +11,9 @@ import com.b.kang.retrofit.network.interfaces.IDailyTop;
 import com.b.kang.retrofit.network.interfaces.IDailyContent;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
@@ -51,32 +54,92 @@ public class DailyManager extends BaseManager {
     }
 
     //get daily top item list
-    public void getDaily(Consumer<DailyLatestDetail> consumer) {
+    public void getDaily(final INetData<DailyLatestDetail> iNetData) {
         Log.d(Tag(),"getDaily");
         iDailyTop.getDailyDetail()
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(consumer);
+                .subscribe(new Observer<DailyLatestDetail>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(DailyLatestDetail dailyLatestDetail) {
+                        iNetData.onDataBack(dailyLatestDetail);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        iNetData.onError();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     //get daily news content
-    public void getNewsContent(Consumer<DailyContent> consumer, long id) {
+    public void getNewsContent(final INetData<DailyContent> iNetData, long id) {
         Log.d(Tag(),"getNewsContent");
         iDailyContent.getNewsContent(id)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(consumer);
+                .subscribe(new Observer<DailyContent>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(DailyContent dailyContent) {
+                        iNetData.onDataBack(dailyContent);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        iNetData.onError();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 
     //get daily prior item list
-    public void getDailyHistory(Consumer<DailyHistory> consumer, String date) {
+    public void getDailyHistory(final INetData<DailyHistory> iNetData, String date) {
         Log.d(Tag(),"getDailyHistory");
         iDailyHistory.getDailyHistory(date)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(consumer);
+                .subscribe(new Observer<DailyHistory>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(DailyHistory dailyHistory) {
+                        iNetData.onDataBack(dailyHistory);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        iNetData.onError();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

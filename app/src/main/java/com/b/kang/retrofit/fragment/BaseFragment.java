@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import com.b.kang.retrofit.KApplication;
 import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.database.dao.GreenDaoManager;
+import com.b.kang.retrofit.network.interfaces.INetData;
+import com.b.kang.retrofit.network.model.BaseDailyItem;
 import com.b.kang.retrofit.util.FragmentStack;
 
 /**

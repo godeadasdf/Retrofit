@@ -3,6 +3,7 @@ package com.b.kang.retrofit.fragment.daily;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.b.kang.retrofit.database.dao.GreenDaoManager;
 import com.b.kang.retrofit.database.dao.ZhiHuItemDao;
 import com.b.kang.retrofit.database.entity.ZhiHuItem;
 import com.b.kang.retrofit.fragment.BaseFragment;
+import com.b.kang.retrofit.network.interfaces.INetData;
 import com.b.kang.retrofit.network.model.DailyHistory;
 import com.b.kang.retrofit.network.model.DailyLatestDailyItem;
 import com.b.kang.retrofit.network.manager.DailyManager;
@@ -28,19 +30,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 /**
  * Created by kang on 17-4-26.
  */
-public class HistoryItemFragment extends BaseFragment implements BaseQuickAdapter.RequestLoadMoreListener {
+public class HistoryItemFragment extends BaseFragment
+        implements BaseQuickAdapter.RequestLoadMoreListener,INetData<DailyHistory> {
 
     private DailyManager dailyManager;
 
     private TopItemAdapter adapter;
     private RecyclerView list;
 
-    private Consumer<DailyHistory> consumer;
+    private Observer<DailyHistory> consumer;
 
     private List<DailyLatestDailyItem> items;
 
@@ -75,20 +80,9 @@ public class HistoryItemFragment extends BaseFragment implements BaseQuickAdapte
         items = new ArrayList<>();
         adapter = new TopItemAdapter(items, baseContext);
         adapter.setAutoLoadMoreSize(1);
-        consumer = new Consumer<DailyHistory>() {
-            @Override
-            public void accept(DailyHistory dailyHistory) throws Exception {
-                EntityUtil.saveDailyModel(dailyHistory.stories, dailyHistory.date);
-                addDataForList(dailyHistory);
-                if (adapter.isLoading()) {
-                    adapter.loadMoreComplete();
-                }
-                adapter.setEnableLoadMore(true);
-            }
-        };
         if (NetUtil.isNetworkConnected(baseContext)) {
             //with network load from network
-            dailyManager.getDailyHistory(consumer, DateUtil.date(currentDate, DateUtil.PATTERN_ONE));
+            dailyManager.getDailyHistory(this, DateUtil.date(currentDate, DateUtil.PATTERN_ONE));
         } else {
             //without network load from database
             ZhiHuItemDao dao = greenDaoManager.getNewSession().getZhiHuItemDao();
@@ -104,7 +98,21 @@ public class HistoryItemFragment extends BaseFragment implements BaseQuickAdapte
     @Override
     public void onLoadMoreRequested() {
         currentDate = DateUtil.priorDay(currentDate);
-        dailyManager.getDailyHistory(consumer, DateUtil.date(currentDate, DateUtil.PATTERN_ONE));
+        dailyManager.getDailyHistory(this, DateUtil.date(currentDate, DateUtil.PATTERN_ONE));
     }
 
+    @Override
+    public void onDataBack(DailyHistory dailyHistory) {
+        EntityUtil.saveDailyModel(dailyHistory.stories, dailyHistory.date);
+        addDataForList(dailyHistory);
+        if (adapter.isLoading()) {
+            adapter.loadMoreComplete();
+        }
+        adapter.setEnableLoadMore(true);
+    }
+
+    @Override
+    public void onError() {
+        Log.d("onError","Network Error");
+    }
 }
