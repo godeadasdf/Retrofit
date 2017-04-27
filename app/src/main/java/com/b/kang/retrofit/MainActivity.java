@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         PagerFragment fragment = new PagerFragment();
        /* TopItemFragment fragment = new TopItemFragment();*/
         ft.replace(R.id.fragment_container, fragment);
-        //ft.addToBackStack(fragment.Tag());
+        //ft.addToBackStack(fragment.tag());
         ft.commit();
         fs.push(fragment);
     }

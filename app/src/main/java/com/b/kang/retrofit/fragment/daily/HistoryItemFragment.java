@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.adapter.TopItemAdapter;
-import com.b.kang.retrofit.database.dao.GreenDaoManager;
 import com.b.kang.retrofit.database.dao.ZhiHuItemDao;
 import com.b.kang.retrofit.database.entity.ZhiHuItem;
 import com.b.kang.retrofit.fragment.BaseFragment;
@@ -23,16 +22,11 @@ import com.b.kang.retrofit.util.EntityUtil;
 import com.b.kang.retrofit.util.NetUtil;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.query.QueryBuilder;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by kang on 17-4-26.
@@ -113,6 +107,6 @@ public class HistoryItemFragment extends BaseFragment
 
     @Override
     public void onError() {
-        Log.d("onError","Network Error");
+        Log.d(tag(),"Network Error");
     }
 }

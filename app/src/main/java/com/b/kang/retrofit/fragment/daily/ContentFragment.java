@@ -14,8 +14,6 @@ import com.b.kang.retrofit.network.model.DailyContent;
 import com.b.kang.retrofit.network.manager.DailyManager;
 import com.google.gson.Gson;
 
-import io.reactivex.functions.Consumer;
-
 /**
  * Created by kang on 17-4-24.
  */
@@ -53,12 +51,12 @@ public class ContentFragment extends BaseFragment
 
     @Override
     public void onDataBack(DailyContent dailyContent) {
-        Log.d(Tag(), new Gson().toJson(dailyContent));
+        Log.d(tag(), new Gson().toJson(dailyContent));
         initWebView(dailyContent.body);
     }
 
     @Override
     public void onError() {
-        Log.d(Tag(),"NetError");
+        Log.d(tag(),"NetError");
     }
 }

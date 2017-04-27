@@ -21,8 +21,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.functions.Consumer;
-
 
 /**
  * Created by kang on 17-4-20.
@@ -61,7 +59,7 @@ public class TopItemFragment extends BaseFragment
     //// TODO: 17-4-24 stated-fragment  
 
     private void initAdapter() {
-        Log.d(Tag(), "initAdapter");
+        Log.d(tag(), "initAdapter");
         dailyAdapter = new TopItemAdapter(items, getContext());
 
         if (NetUtil.isNetworkConnected(baseContext)) {
@@ -70,7 +68,7 @@ public class TopItemFragment extends BaseFragment
     }
 
     private void initView(View view) {
-        Log.d(Tag(), "initView");
+        Log.d(tag(), "initView");
         dailyView = (RecyclerView) view.findViewById(R.id.daily_list);
         dailyView.setHasFixedSize(true);
         dailyView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -85,7 +83,7 @@ public class TopItemFragment extends BaseFragment
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        Log.d(Tag(), "ItemClick()");
+        Log.d(tag(), "ItemClick()");
         BaseDailyItem item = (BaseDailyItem) adapter.getItem(position);
         long id = item.getId();
         presentFragmentWithData(new ContentFragment(), assembleData("id", id));
@@ -102,6 +100,6 @@ public class TopItemFragment extends BaseFragment
 
     @Override
     public void onError() {
-        Log.d(Tag(),"NetError");
+        Log.d(tag(),"NetError");
     }
 }

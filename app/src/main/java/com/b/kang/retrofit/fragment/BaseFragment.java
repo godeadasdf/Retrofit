@@ -2,19 +2,14 @@ package com.b.kang.retrofit.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.b.kang.retrofit.KApplication;
 import com.b.kang.retrofit.R;
 import com.b.kang.retrofit.database.dao.GreenDaoManager;
-import com.b.kang.retrofit.network.interfaces.INetData;
-import com.b.kang.retrofit.network.model.BaseDailyItem;
 import com.b.kang.retrofit.util.FragmentStack;
 
 /**
@@ -52,7 +47,7 @@ public abstract class BaseFragment extends Fragment {
     private void replaceFragment(BaseFragment fragment) {
         FragmentTransaction ft = baseFramentManager.beginTransaction();
         ft.replace(R.id.fragment_container, fragment);
-        ft.addToBackStack(fragment.Tag());
+        ft.addToBackStack(fragment.tag());
         ft.commit();
     }
 
@@ -87,7 +82,7 @@ public abstract class BaseFragment extends Fragment {
         return bundle;
     }
 
-    public String Tag() {
+    public String tag() {
         return this.getClass().getSimpleName();
     }
 

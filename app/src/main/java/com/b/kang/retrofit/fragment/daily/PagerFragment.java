@@ -45,7 +45,7 @@ public class PagerFragment extends BaseFragment
     }
 
     public void initAdapter() {
-        Log.d(Tag(), "initAdapter");
+        Log.d(tag(), "initAdapter");
         fragments = new ArrayList<>();
         fragments.add(new TopItemFragment());
         fragments.add(new HistoryItemFragment());
@@ -55,7 +55,7 @@ public class PagerFragment extends BaseFragment
 
 
     private void initPager(View view) {
-        Log.d(Tag(), "initPager");
+        Log.d(tag(), "initPager");
         table = (TabLayout) view.findViewById(R.id.table);
         pager = (ViewPager) view.findViewById(R.id.pager);
         pager.setAdapter(adapter);
@@ -84,7 +84,7 @@ public class PagerFragment extends BaseFragment
     @Override
     public void onPageSelected(int position) {
         //// TODO: 17-4-24 need add reaction for bottom navigator style change
-        Log.d(Tag(), "position:" + position);
+        Log.d(tag(), "position:" + position);
     }
 
     @Override
