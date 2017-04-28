@@ -46,7 +46,7 @@ public class ZhiHuDaoManager extends BaseEntityManager {
     }
 
     public void getZhiHuList(final IDbData<List<ZhiHuItem>> iDbData) {
-        
+
         //// TODO: 17-4-27 make a Flowable and Subscrible version work
         Observable.create(new ObservableOnSubscribe<List<ZhiHuItem>>() {
             @Override
@@ -90,27 +90,24 @@ public class ZhiHuDaoManager extends BaseEntityManager {
                     public Publisher<DailyLatestDailyItem> apply(List<DailyLatestDailyItem> dailyLatestDailyItems) throws Exception {
                         return Flowable.fromIterable(dailyLatestDailyItems);
                     }//// TODO: 17-4-27 why map() function not launch
-                })./*map(new Function<DailyLatestDailyItem, ZhiHuItem>() {
-            @Override
-            public ZhiHuItem apply(DailyLatestDailyItem item) throws Exception {
-                ZhiHuItem zhi = new ZhiHuItem();
-                zhi.date = date;
-                zhi.newsId = item.id;
-                zhi.imageUrl = item.images[0];
-                zhi.title = item.title;
-                return zhi;
-            }
-        }).*/subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe(new Consumer<DailyLatestDailyItem>() {
+                })
+                .map(new Function<DailyLatestDailyItem, ZhiHuItem>() {
                     @Override
-                    public void accept(DailyLatestDailyItem item) {
+                    public ZhiHuItem apply(DailyLatestDailyItem item) throws Exception {
                         ZhiHuItem zhi = new ZhiHuItem();
                         zhi.date = date;
                         zhi.newsId = item.id;
                         zhi.imageUrl = item.images[0];
                         zhi.title = item.title;
-                        GreenDaoManager.getInstance().getNewSession().insert(zhi);
+                        return zhi;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Consumer<ZhiHuItem>() {
+                    @Override
+                    public void accept(ZhiHuItem item) {
+                        GreenDaoManager.getInstance().getNewSession().insert(item);
                     }
 
                 });
