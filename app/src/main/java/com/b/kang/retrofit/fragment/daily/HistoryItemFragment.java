@@ -16,6 +16,7 @@ import com.b.kang.retrofit.database.interfaces.IDbData;
 import com.b.kang.retrofit.database.manager.ZhiHuDaoManager;
 import com.b.kang.retrofit.fragment.BaseFragment;
 import com.b.kang.retrofit.network.interfaces.INetData;
+import com.b.kang.retrofit.network.model.BaseDailyItem;
 import com.b.kang.retrofit.network.model.DailyHistory;
 import com.b.kang.retrofit.network.model.DailyLatestDailyItem;
 import com.b.kang.retrofit.network.manager.DailyManager;
@@ -23,6 +24,7 @@ import com.b.kang.retrofit.util.DateUtil;
 import com.b.kang.retrofit.util.EntityUtil;
 import com.b.kang.retrofit.util.NetState;
 import com.b.kang.retrofit.util.NetUtil;
+import com.baoyz.widget.PullRefreshLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
 import java.util.ArrayList;
@@ -36,13 +38,17 @@ import io.reactivex.Observer;
  */
 public class HistoryItemFragment extends BaseFragment
         implements BaseQuickAdapter.RequestLoadMoreListener,
-        INetData<DailyHistory>, IDbData<List<ZhiHuItem>> {
+        INetData<DailyHistory>, IDbData<List<ZhiHuItem>>,
+        PullRefreshLayout.OnRefreshListener{
 
     private DailyManager dailyManager;
     private ZhiHuDaoManager daoManager;
 
     private TopItemAdapter adapter;
+    private PullRefreshLayout refreshLayout;
     private RecyclerView list;
+
+    private long lastMaxId = 0;
 
     private Observer<DailyHistory> consumer;
 
@@ -69,6 +75,8 @@ public class HistoryItemFragment extends BaseFragment
         list.setHasFixedSize(true);
         list.setLayoutManager(new LinearLayoutManager(baseContext));
         list.setAdapter(adapter);
+        refreshLayout = (PullRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
+        refreshLayout.setOnRefreshListener(this);
         adapter.setOnLoadMoreListener(this, list);
     }
 
@@ -80,13 +88,17 @@ public class HistoryItemFragment extends BaseFragment
         items = new ArrayList<>();
         adapter = new TopItemAdapter(items, baseContext);
         adapter.setAutoLoadMoreSize(1);
+        getData();
+    }
+
+    private void getData() {
         if (NetUtil.netState.getValue() != NetState.NONE.getValue()) {
             //with network load from network
             dailyManager.getDailyHistory(this, DateUtil.date(currentDate, DateUtil.PATTERN_ONE));
         } else {
-            //without network load from database
-            daoManager.getZhiHuList(this);
 
+            //without network load from database
+            daoManager.getZhiHuList(this, lastMaxId);
         }
     }
 
@@ -97,13 +109,21 @@ public class HistoryItemFragment extends BaseFragment
     @Override
     public void onLoadMoreRequested() {
         currentDate = DateUtil.priorDay(currentDate);
-        dailyManager.getDailyHistory(this, DateUtil.date(currentDate, DateUtil.PATTERN_ONE));
+        getData();
     }
 
     @Override
     public void onDataBack(DailyHistory dailyHistory) {
         daoManager.saveZhiHuList(dailyHistory.stories, dailyHistory.date);
         addDataForList(dailyHistory);
+        if (refreshLayout.isShown()){
+            baseHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    refreshLayout.setRefreshing(false);
+                }
+            },2000);
+        }
         if (adapter.isLoading()) {
             adapter.loadMoreComplete();
         }
@@ -117,6 +137,22 @@ public class HistoryItemFragment extends BaseFragment
 
     @Override
     public void onLoadData(List<ZhiHuItem> data) {
+
+        if (adapter.isLoading()) {
+            if (data.size() == 0) {
+                adapter.loadMoreFail();
+            } else {
+                adapter.loadMoreComplete();
+            }
+        }
+        adapter.setEnableLoadMore(true);
+
         adapter.addData(data);
+        lastMaxId = ((BaseDailyItem) adapter.getItem(items.size() - 1)).getId();
+    }
+
+    @Override
+    public void onRefresh() {
+        getData();
     }
 }

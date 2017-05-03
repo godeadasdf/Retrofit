@@ -45,7 +45,7 @@ public class ZhiHuItemDao extends AbstractDao<ZhiHuItem, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"ZHI_HU_ITEM\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"NEWS_ID\" INTEGER NOT NULL ," + // 1: newsId
+                "\"NEWS_ID\" INTEGER NOT NULL UNIQUE ," + // 1: newsId
                 "\"TITLE\" TEXT," + // 2: title
                 "\"IMAGE_URL\" TEXT," + // 3: imageUrl
                 "\"DATE\" TEXT);"); // 4: date

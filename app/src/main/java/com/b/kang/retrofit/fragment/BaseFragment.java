@@ -2,6 +2,7 @@ package com.b.kang.retrofit.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -23,11 +24,13 @@ public abstract class BaseFragment extends Fragment {
     protected Bundle stateKeeper; //to keep state for fragment
 
     protected Context baseContext;
+    protected Handler baseHandler;
 
     protected GreenDaoManager greenDaoManager;
 
     public BaseFragment() {
         stateKeeper = new Bundle();
+        baseHandler = new Handler();
         greenDaoManager = KApplication.getGreenDaoManager();
     }
 

@@ -45,14 +45,19 @@ public class ZhiHuDaoManager extends BaseEntityManager {
         return ZhiHuDaoManagerHolder.zhiHuDaoManager;
     }
 
-    public void getZhiHuList(final IDbData<List<ZhiHuItem>> iDbData) {
+    public void getZhiHuList(final IDbData<List<ZhiHuItem>> iDbData,final long id) {
 
         //// TODO: 17-4-27 make a Flowable and Subscrible version work
         Observable.create(new ObservableOnSubscribe<List<ZhiHuItem>>() {
             @Override
             public void subscribe(ObservableEmitter<List<ZhiHuItem>> e) throws Exception {
                 ZhiHuItemDao dao = greenDaoManager.getNewSession().getZhiHuItemDao();
-                List<ZhiHuItem> list = dao.queryBuilder().limit(20).list();
+                List<ZhiHuItem> list;
+                if (id == 0) {
+                    list = dao.queryBuilder().limit(20).list();
+                }else {
+                    list = dao.queryBuilder().limit(20).where(ZhiHuItemDao.Properties.Id.gt(id)).list();
+                }
                 e.onNext(list);
                 e.onComplete();
             }
@@ -107,7 +112,7 @@ public class ZhiHuDaoManager extends BaseEntityManager {
                 .subscribe(new Consumer<ZhiHuItem>() {
                     @Override
                     public void accept(ZhiHuItem item) {
-                        GreenDaoManager.getInstance().getNewSession().insert(item);
+                        GreenDaoManager.getInstance().getNewSession().insertOrReplace(item);
                     }
 
                 });

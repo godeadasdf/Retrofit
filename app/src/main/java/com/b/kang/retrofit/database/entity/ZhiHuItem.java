@@ -5,6 +5,7 @@ import com.b.kang.retrofit.network.model.BaseDailyItem;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Unique;
 
 /**
  * Created by kang on 17-4-26.
@@ -15,6 +16,7 @@ public class ZhiHuItem extends BaseDailyItem {
     @Id(autoincrement = true)
     public Long id;
 
+    @Unique
     public long newsId;
 
     public String title;
